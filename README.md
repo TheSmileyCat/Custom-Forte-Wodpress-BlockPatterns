@@ -1,2 +1,3 @@
-# WordPress-Custom-WebBlock-Integrator
-Turn already programmed divs into blocks for wordpress
+# Custom-Forte-Wordpress-BlockPatterns
+
+A collection of Wordpress/Gutenberg Block Patterns
