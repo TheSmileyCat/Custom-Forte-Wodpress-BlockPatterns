@@ -7,54 +7,21 @@
 
 if ( ! defined( 'ABSPATH' )) exit;
 
+//Function for registering block patterns
 function register_block_patterns()
 {
-    register_block_pattern('forte-custom-block-patterns/learn-music-blocks',
-    array(
-    'title'         => 'Imported Feature Block',
-    'description'   => 'An Imported block using custom HTML and CSS',
-    'blockTypes'    => array('core/paragraph', 'core/heading', 'core/buttons'),
-    'categories'    => ['custom'],
-    'content'       => '
 
-    <!-- wp:group {"className:"learn music card"} -->
-    <div class="learn-music card">
+    // Load the pattern files from the patterns directory that end with .php
+    $pattern_files = glob( plugin_dir_path(__FILE__).'patterns/*.php');
+    
+    foreach ($pattern_files as $file)
+    {
+        // Use the file name (without the .php extension) as the pattern slug
+        $slug = 'forte-custom-block-patterns/'.basename($file, '.php');
 
-        <!-- wp:image {"sizeSlug":"small"} -->
-        <figure class="wp-block-image size-small">
-            <img src="assets/musicbox-icon-jungle.png" alt="Jungle Music Icon" class="card-icon">
-        </figure>
-        <!-- /wp:image -->
-
-        <!-- wp:heading {"level":1} -->
-        <h2>Jungle music</h2>
-        <!-- /wp:heading -->
-
-
-        <div class="center-stack">
-
-        <!-- wp:paragraph -->
-        <span class="label">Babies</span>
-        <!-- /wp:paragraph -->
-
-        <!-- wp:paragraph -->
-        <span class="age-range">6 months - 3.5 yrs</span>
-        <!-- /wp:paragraph -->
-
-        </div>
-
-        <!-- wp:paragraph -->
-        <p>Jungle Music is Forte’s award winning early childhood music programme. Children are given the opportunity to experience a wide range of musical activities in a nurturing, safe environment.</p>
-        <!-- /wp:paragraph -->
-
-        <!-- wp:button -->
-        <div class="wp-block-button"><a class="wp-block-button__link">Book Trial</a></div>
-        <!-- /wp:button -->
-    </div>
-    <!-- /wp:group -->
-    '
-    ),
-    );
-}   
+        // Register the block pattern into wordpress
+        register_block_pattern($slug,include $file);
+    }
+}
 
 add_action('init', 'register_block_patterns');
